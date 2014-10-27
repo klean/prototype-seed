@@ -16,7 +16,8 @@
 // .center        - Centers an element. The element needs to a have a width defined.
 // .left          - Floats the element left.
 // .right         - Floats the element right.
-// .flex-center   - Center aligns items inside of it with flex
+// .flex-center   - Center aligns items inside of it with flex.
+// .bottom        - Puts element in the bottom of containing element.
 //
 // Styleguide 2.1
 
@@ -32,6 +33,11 @@
 
 .left {
   float: left;
+}
+
+.bottom{
+  position: absolute;
+  bottom: 0;
 }
 
 .flex-center {
@@ -62,6 +68,10 @@
 
 .slim {
   margin-bottom: $spacing/2 !important;
+}
+
+.spacing{
+  margin-bottom: $spacing !important;
 }
 
 .row {
@@ -171,9 +181,9 @@
 //
 // Styleguide 2.5
 
-.embed-container { 
+.embed-container {
   height: 0;
-  height: auto; 
+  height: auto;
   margin-bottom: $spacing;
   max-width: 100%;
   overflow: hidden;
@@ -182,15 +192,15 @@
 
   iframe,
   object,
-  embed { 
+  embed {
     border: 0;
-    height: 100%; 
+    height: 100%;
     left: 0;
-    position: absolute; 
-    top: 0; 
-    width: 100%; 
+    position: absolute;
+    top: 0;
+    width: 100%;
   }
-} 
+}
 
 %layer-bottom {
   z-index: 100;
@@ -213,4 +223,35 @@
   &.rectangle {
     width: auto;
   }
+}
+
+@mixin truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+%truncate {
+  @include truncate;
+}
+
+.clear-container {
+  @extend %clearfix;
+  display: block;
+  position: relative;
+
+  @include media(lap) {
+    margin-left: -$spacing;
+    margin-right: -$spacing;
+  }
+
+  @include media(palm) {
+    margin-left: -$spacing/2;
+    margin-right: -$spacing/2;
+  }
+}
+
+.block {
+  display: block;
 }
