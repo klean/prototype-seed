@@ -33,14 +33,11 @@ var SOURCE = 'source/',
 gulp.task('css', function() {
   var FILES = SOURCE + STYLES + '*.scss';
   gulp.src(FILES)
-    .pipe(watch(FILES, function(files) {
-      return files
-        .pipe(sass({ errLogToConsole: true }))
-        .pipe(prefix("last 1 version", "> 1%", "ie 9")
-              .on('error', function (error) { console.warn(error.message); }))
-        .pipe(gulp.dest(BUILD + STYLES))
-        .pipe(browserSync.reload({stream: true}));
-    }));
+    .pipe(sass({ errLogToConsole: true }))
+    .pipe(prefix("last 1 version", "> 1%", "ie 9")
+      .on('error', function (error) { console.warn(error.message); }))
+    .pipe(gulp.dest(BUILD + STYLES))
+    .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('js', function() {
@@ -65,17 +62,13 @@ gulp.task('jade', function() {
 gulp.task('images', function() {
   var FILES = SOURCE + IMAGES + '*.*';
   gulp.src(FILES)
-    .pipe(watch(FILES, function(files) {
-      return files.pipe( gulp.dest(BUILD + IMAGES) );
-    }));
+    .pipe( gulp.dest(BUILD + IMAGES) );
 });
 
 gulp.task('fonts', function() {
   var FILES = SOURCE + FONTS + '*.*';
   gulp.src(FILES)
-    .pipe(watch(FILES, function(files) {
-      return files.pipe( gulp.dest(BUILD + FONTS));
-    }));
+    .pipe( gulp.dest(BUILD + FONTS));
 });
 
 gulp.task('vendor', function() {
@@ -95,9 +88,7 @@ gulp.task('clean', function(cb){
 gulp.task('public', function() {
   var FILES = PUBLIC + '**/*.*';
   gulp.src(FILES)
-    .pipe(watch(FILES, function(files) {
-      return files.pipe( gulp.dest(BUILD));
-    }));
+    .pipe( gulp.dest(BUILD));
 });
 
 gulp.task('kss', function() {
