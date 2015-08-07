@@ -105,8 +105,7 @@ gulp.task('build', ['js', 'css', 'jade', 'images', 'fonts', 'vendor', 'public', 
 
 
 // --- Setting up browser sync - see https://github.com/shakyShane/browser-sync ---
-gulp.task('browser-sync', ['clean'], function() {
-  gulp.start('build');
+gulp.task('browser-sync', ['clean', 'build'], function() {
   browserSync({ server: { baseDir: BUILD } });
 });
 
@@ -126,14 +125,11 @@ gulp.task('watch', ['browser-sync'], function () {
 
 
 // --- Default gulp task, run with gulp. - Starts our project and opens a new browser window.
-gulp.task('default', ['clean'], function(){
-  gulp.start('watch');
-});
+gulp.task('default', ['clean', 'watch']);
 
 
 // --- Heroku Task. Is only run when deployed to heroku.
-gulp.task('heroku', ['clean'], function() {
-  gulp.start('build');
+gulp.task('heroku', ['clean', 'build'], function() {
   var port = process.env.PORT || 3000;
 
   server.listen(port, function() {
