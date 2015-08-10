@@ -73,7 +73,14 @@ gulp.task('css', function() {
 
 
 gulp.task('js', function() {
-  var FILES = [ SOURCE + JS + '*.js' ];
+  vvar FILES = [ 
+    BOWER + 'jquery/dist/jquery.js',
+    BOWER + 'fitvids/jquery.fitvids.js',
+    BOWER + 'jquery-validation/dist/jquery-validate.js',
+    SOURCE + 'globals/*.js',
+    SOURCE + JS +  '*.js'
+  ];
+  
   gulp.src(FILES)
     .pipe(uglify()
       .on('error', function (error) { console.warn(error.message); }))
