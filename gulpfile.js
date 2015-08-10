@@ -1,5 +1,13 @@
 'use strict';
 
+function mytest() {
+  console.log('run gulpif');
+  browserSync.reload({stream: true})
+}
+var condition = true;
+
+
+
 var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     sass        = require('gulp-sass'),
@@ -10,26 +18,49 @@ var gulp        = require('gulp'),
     del         = require('del'),
     server      = require('./server'),
     kss         = require('gulp-kss'),
-    browserSync = require('browser-sync');
+    browserSync = require('browser-sync'),
+    yarg        = require('yargs').argv,
+    gulpif      = require('gulp-if');
 
 
 //
 // Paths
 // -------------------------------------------------------------
+
+// Defaults
+
 var SOURCE = 'source/',
     BUILD  = 'build/',
     PUBLIC = 'public/',
     ASSETS = 'assets/',
-    BOWER = 'bower_components/',
+    BOWER  = 'bower_components/',
     STYLES = ASSETS + 'styles/',
     JS     = ASSETS + 'scripts/',
     IMAGES = ASSETS + 'images/',
     FONTS  = ASSETS + 'fonts/';
 
+// Project specific
+
+var PROJECTNAME   = 'prototype-seed';
+
+
+// Build variables
+var isPrototype   = false;
+
+if(yarg.prototype) {
+  console.log('Building prototype code');
+  isPrototype = true;
+}
+
+
+// gulpif https://github.com/robrich/gulp-if
+
 
 //
 // TASKS
 // -------------------------------------------------------------
+
+
 gulp.task('css', function() {
   var FILES = SOURCE + STYLES + '*.scss';
   gulp.src(FILES)
@@ -37,26 +68,28 @@ gulp.task('css', function() {
     .pipe(prefix("last 1 version", "> 1%", "ie 9")
       .on('error', function (error) { console.warn(error.message); }))
     .pipe(gulp.dest(BUILD + STYLES))
-    .pipe(browserSync.reload({stream: true}));
+    .pipe(browserSync.reload({stream: true}) );
 });
+
 
 gulp.task('js', function() {
   var FILES = [ SOURCE + JS + '*.js' ];
   gulp.src(FILES)
     .pipe(uglify()
-          .on('error', function (error) { console.warn(error.message); }))
+      .on('error', function (error) { console.warn(error.message); }))
     .pipe(concat('main.js'))
     .pipe(gulp.dest(BUILD + JS))
-    .pipe(browserSync.reload({stream: true, once: true}));
+    .pipe(gulpif(condition,  browserSync.reload({stream: true}) ) ); // Y U No Work?!!! -- FIXED
 });
 
 gulp.task('jade', function() {
   var FILES = SOURCE + '*.jade';
   gulp.src(FILES)
     .pipe(jade({ pretty: true })
-          .on('error', function (error) { console.warn(error.message); }))
+      .on('error', function (error) { console.warn(error.message); }))
     .pipe(gulp.dest(BUILD) )
-    .pipe(browserSync.reload({stream: true, once: true}) );
+    .pipe(browserSync.reload({stream: true}) );
+    if(condition) {console.log('Gulp If triggered')};
 });
 
 gulp.task('images', function() {
@@ -105,7 +138,7 @@ gulp.task('build', ['js', 'css', 'jade', 'images', 'fonts', 'vendor', 'public', 
 
 
 // --- Setting up browser sync - see https://github.com/shakyShane/browser-sync ---
-gulp.task('browser-sync', ['clean', 'build'], function() {
+gulp.task('browser-sync', ['build'], function() {
   browserSync({ server: { baseDir: BUILD } });
 });
 
@@ -125,11 +158,11 @@ gulp.task('watch', ['browser-sync'], function () {
 
 
 // --- Default gulp task, run with gulp. - Starts our project and opens a new browser window.
-gulp.task('default', ['clean', 'watch']);
+gulp.task('default', ['watch']);
 
 
 // --- Heroku Task. Is only run when deployed to heroku.
-gulp.task('heroku', ['clean', 'build'], function() {
+gulp.task('heroku', ['build'], function() {
   var port = process.env.PORT || 3000;
 
   server.listen(port, function() {
