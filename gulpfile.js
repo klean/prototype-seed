@@ -1,13 +1,5 @@
 'use strict';
 
-function mytest() {
-  console.log('run gulpif');
-  browserSync.reload({stream: true})
-}
-var condition = true;
-
-
-
 var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     sass        = require('gulp-sass'),
@@ -20,7 +12,15 @@ var gulp        = require('gulp'),
     kss         = require('gulp-kss'),
     browserSync = require('browser-sync'),
     yarg        = require('yargs').argv,
-    gulpif      = require('gulp-if');
+    gulpif      = require('gulp-if'),
+    plumber     = require('gulp-plumber'),
+    beep        = require('beepbeep'),
+    colors      = require('colors');
+
+
+// * extra features *
+// - js lint
+// - blazy js bower
 
 
 //
@@ -44,12 +44,74 @@ var SOURCE = 'source/',
 var PROJECTNAME   = 'prototype-seed';
 
 
-// Build variables
-var isPrototype   = false;
 
-if(yarg.prototype) {
+// 
+// YARGS
+// --------------------------------------------------------------
+
+// Build variables
+var isPrototype         = true;
+var browserSyncEnabled  = true;
+var debug               = true;
+var noUgly              = true;
+var beepbeep            = true;
+
+
+// Groups
+if(yarg.dev || yarg.prod) {
+  isPrototype   = false;
+}
+else {
   console.log('Building prototype code');
-  isPrototype = true;
+}
+
+
+// Singles
+if(yarg.prod) {
+  console.log('Running in production mode');
+  isPrototype           = false;
+  browserSyncEnabled    = false;
+  debug                 = false;
+  noUgly                = false;
+  beepbeep              = false;
+}
+
+if(yarg.dev) {
+  console.log('Running in development mode');
+  browserSyncEnabled   = false;
+}
+
+
+
+if(yarg.debug) {
+  console.log('Debugging is now active');
+  debug = true;
+}
+
+if(yarg.nougly) {
+  noUgly = true;
+}
+
+if(yarg.holdthehorn) {
+  beepbeep = false;
+}
+else if( yarg.beepbeep) {
+  beepbeep = true;
+}
+
+
+if(yarg.help) {
+  console.log(
+    'HELP \n' +
+    'Options:'.underline 
+  );
+
+  console.log(
+    '--dev : '.bold + 'Runs the project with everything but browserSync.' + '\n' +
+    '--prod : '.bold + 'Builds the project. Alle dev funcitons are turned off'
+  );
+
+  process.exit();
 }
 
 
@@ -64,20 +126,26 @@ if(yarg.prototype) {
 gulp.task('css', function() {
   var FILES = SOURCE + STYLES + '*.scss';
   gulp.src(FILES)
+    .pipe(plumber(function () {
+        if(beepbeep) {
+          beep();
+        }
+        console.log('[sass]'.bold.magenta + ' There was an issue compiling Sass\n'.bold.red);
+        this.emit('end');
+    }))
     .pipe(sass({ errLogToConsole: true }))
-    .pipe(prefix("last 1 version", "> 1%", "ie 9")
-      .on('error', function (error) { console.warn(error.message); }))
+    .pipe(prefix("last 1 version", "> 1%", "ie 9"))
     .pipe(gulp.dest(BUILD + STYLES))
-    .pipe(browserSync.reload({stream: true}) );
+    .pipe(gulpif(isPrototype,  browserSync.reload({stream: true}) ) ); 
 });
 
-
 gulp.task('js', function() {
-  vvar FILES = [ 
+  var FILES = [ 
     BOWER + 'jquery/dist/jquery.js',
     BOWER + 'fitvids/jquery.fitvids.js',
     BOWER + 'jquery-validation/dist/jquery-validate.js',
-    SOURCE + 'globals/*.js',
+    SOURCE + JS + 'globals/*.js',
+    SOURCE + JS + 'libraries/*.js',
     SOURCE + JS +  '*.js'
   ];
   
@@ -86,17 +154,22 @@ gulp.task('js', function() {
       .on('error', function (error) { console.warn(error.message); }))
     .pipe(concat('main.js'))
     .pipe(gulp.dest(BUILD + JS))
-    .pipe(gulpif(condition,  browserSync.reload({stream: true}) ) ); // Y U No Work?!!! -- FIXED
+    .pipe(gulpif(isPrototype, browserSync.reload({stream: true}) ) ); // Y U No Work?!!! -- FIXED
 });
 
 gulp.task('jade', function() {
   var FILES = SOURCE + '*.jade';
   gulp.src(FILES)
-    .pipe(jade({ pretty: true })
-      .on('error', function (error) { console.warn(error.message); }))
+    .pipe(jade({ pretty: true }))
+    .pipe(plumber(function () {
+        if(beepbeep) {
+          beep();
+        }
+        console.log('[jade]'.bold.tomato + ' There was an issue compiling Sass\n'.bold.red);
+        this.emit('end');
+    }))
     .pipe(gulp.dest(BUILD) )
-    .pipe(browserSync.reload({stream: true}) );
-    if(condition) {console.log('Gulp If triggered')};
+    .pipe(gulpif(isPrototype,  browserSync.reload({stream: true}) ) ); 
 });
 
 gulp.task('images', function() {
@@ -144,9 +217,12 @@ gulp.task('kss', function() {
 gulp.task('build', ['js', 'css', 'jade', 'images', 'fonts', 'vendor', 'public', 'kss']);
 
 
+
 // --- Setting up browser sync - see https://github.com/shakyShane/browser-sync ---
 gulp.task('browser-sync', ['build'], function() {
-  browserSync({ server: { baseDir: BUILD } });
+  if(browserSyncEnabled) {
+    browserSync({ server: { baseDir: BUILD } });
+  }
 });
 
 
