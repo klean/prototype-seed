@@ -4,6 +4,7 @@ var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     sass        = require('gulp-sass'),
     uglify      = require('gulp-uglify'),
+    minify      = require('gulp-minify-css'),
     jade        = require('gulp-jade'),
     watch       = require('gulp-watch'),
     prefix      = require('gulp-autoprefixer'),
@@ -53,7 +54,7 @@ var PROJECTNAME   = 'prototype-seed';
 var isPrototype         = true;
 var browserSyncEnabled  = true;
 var debug               = true;
-var noUgly              = true;
+var ugly                = true;
 var beepbeep            = true;
 
 
@@ -89,7 +90,7 @@ if(yarg.debug) {
 }
 
 if(yarg.nougly) {
-  noUgly = true;
+  ugly = false;
 }
 
 if(yarg.holdthehorn) {
@@ -123,6 +124,7 @@ if(yarg.help) {
 // -------------------------------------------------------------
 
 
+// CSS
 gulp.task('css', function() {
   var FILES = SOURCE + STYLES + '*.scss';
   gulp.src(FILES)
@@ -131,14 +133,18 @@ gulp.task('css', function() {
           beep();
         }
         console.log('[sass]'.bold.magenta + ' There was an issue compiling Sass\n'.bold.red);
+        console.log('Error:'.bold + error.message);
         this.emit('end');
     }))
     .pipe(sass({ errLogToConsole: true }))
     .pipe(prefix("last 1 version", "> 1%", "ie 9"))
+    .pipe(gulpif(ugly, minify().on('error', function (error) { console.warn(error.message); })))
     .pipe(gulp.dest(BUILD + STYLES))
     .pipe(gulpif(isPrototype,  browserSync.reload({stream: true}) ) ); 
 });
 
+
+// JS
 gulp.task('js', function() {
   var FILES = [ 
     BOWER + 'jquery/dist/jquery.js',
@@ -150,13 +156,13 @@ gulp.task('js', function() {
   ];
   
   gulp.src(FILES)
-    .pipe(uglify()
-      .on('error', function (error) { console.warn(error.message); }))
+    .pipe(gulpif(ugly, uglify().on('error', function (error) { console.warn(error.message); })))
     .pipe(concat('main.js'))
     .pipe(gulp.dest(BUILD + JS))
-    .pipe(gulpif(isPrototype, browserSync.reload({stream: true}) ) ); // Y U No Work?!!! -- FIXED
+    .pipe(gulpif(isPrototype, browserSync.reload({stream: true}) ) ); 
 });
 
+// JADE
 gulp.task('jade', function() {
   var FILES = SOURCE + '*.jade';
   gulp.src(FILES)
@@ -172,18 +178,24 @@ gulp.task('jade', function() {
     .pipe(gulpif(isPrototype,  browserSync.reload({stream: true}) ) ); 
 });
 
+
+// IMAGES
 gulp.task('images', function() {
   var FILES = SOURCE + IMAGES + '*.*';
   gulp.src(FILES)
     .pipe( gulp.dest(BUILD + IMAGES) );
 });
 
+
+// FONTS
 gulp.task('fonts', function() {
   var FILES = SOURCE + FONTS + '*.*';
   gulp.src(FILES)
     .pipe( gulp.dest(BUILD + FONTS));
 });
 
+
+// VENDOR
 gulp.task('vendor', function() {
   var FILES = [
     BOWER + 'modernizr/modernizr.js',
@@ -194,16 +206,22 @@ gulp.task('vendor', function() {
       .pipe(gulp.dest(BUILD + JS));
 });
 
+
+// CLEAN
 gulp.task('clean', function(cb){
   del([BUILD], cb);
 });
 
+
+// PUBLIC
 gulp.task('public', function() {
   var FILES = PUBLIC + '**/*.*';
   gulp.src(FILES)
     .pipe( gulp.dest(BUILD));
 });
 
+
+// STYLEGUIDE
 gulp.task('kss', function() {
   gulp.src([SOURCE + STYLES + '**/*.scss'])
       .pipe(kss({
