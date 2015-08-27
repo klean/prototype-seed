@@ -60,6 +60,28 @@ $directions:        'left', 'right', 'both';
   }
 }
 
+
+$nths:        2, 3, 4;
+
+@mixin clear-nth-generate($namespace: '') {
+  @each $nth in $nths {
+    .clear-#{$nth}nth#{$namespace}:nth-of-type(#{$nth}n+#{$nth + 1}) {
+      clear: left;
+    }
+  }
+}
+
+// Generate clear classes without suffix.
+@include clear-nth-generate();
+
+// Generate clear classes with all the breakpoint suffixes
+@each $breakpoint in $breakpoints {
+  @include media($breakpoint) {
+    @include clear-nth-generate('--#{$breakpoint}');
+  }
+}
+
+
 // Spacing
 //
 // Spacers are used to positioning specific elements. Usually it can be modules
