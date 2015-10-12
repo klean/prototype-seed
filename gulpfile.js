@@ -16,7 +16,9 @@ var gulp        = require('gulp'),
     gulpif      = require('gulp-if'),
     plumber     = require('gulp-plumber'),
     beep        = require('beepbeep'),
-    colors      = require('colors');
+    colors      = require('colors'),
+    stripDebug  = require('gulp-strip-debug'),
+    replace     = require('gulp-regex-replace');
 
 
 // * extra features *
@@ -56,6 +58,7 @@ var browserSyncEnabled  = true;
 var debug               = true;
 var ugly                = true;
 var beepbeep            = true;
+var console             = true;
 
 
 // Groups
@@ -75,6 +78,7 @@ if(yarg.prod) {
   debug                 = false;
   noUgly                = false;
   beepbeep              = false;
+  console               = false;
 }
 
 if(yarg.dev) {
@@ -91,6 +95,10 @@ if(yarg.debug) {
 
 if(yarg.nougly) {
   ugly = false;
+}
+
+if(yarg.console) {
+  console = true;
 }
 
 if(yarg.holdthehorn) {
@@ -157,6 +165,8 @@ gulp.task('js', function() {
   
   gulp.src(FILES)
     .pipe(gulpif(ugly, uglify().on('error', function (error) { console.warn(error.message); })))
+    .pipe(gulpif(stripDebug()))
+    .pipe(gulpif(replace({regex:'^((?!function)consoleLog)\\(*.+\\);', replace:''}))) // remove consoleLog() but not def: function consoleLog()
     .pipe(concat('main.js'))
     .pipe(gulp.dest(BUILD + JS))
     .pipe(gulpif(isPrototype, browserSync.reload({stream: true}) ) ); 

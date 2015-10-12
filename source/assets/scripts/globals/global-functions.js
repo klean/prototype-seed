@@ -18,14 +18,38 @@ showGroups - This controls which group of console logs you want to show.
 */
 
 
-function consoleLog(log, group) {
-	var debug 		= false;
-	var showGroups 	= ['default'];
+function consoleLog(log, type , group) {
+    var debug       = true;
+    var showGroups  = ['default', 'group1', 'group2'];
     
-	group = (typeof group === 'undefined') ? 'default' : group;
+    group = (typeof group === 'undefined') ? 'default' : group;
+    type = (typeof type === 'undefined') ? 'default' : type;
 
     if(debug == true && showGroups.indexOf(group, 0) != -1) {
-      console.log(log);
+        if(type === 'warning') {
+            console.log('%c' + '\u2620 warning:' + log, 'color: #FF3300'); // Red
+        }
+        else if(type === 'notification') {
+            console.log('%c' + '\u26A0 notification: ' + log, 'color: #FFFF00'); // Yellow
+        }
+        else if(type === 'event') {
+            console.log('%c' + '\u23DA event: ' + log, 'color: #FF00FF'); // Fuchsia
+        }
+        else if(type === 'function') {
+            console.log('%c' + '\u222F function: ' + log, 'color: #9900CC'); // Purple
+        }
+        else if(type === 'accept') {
+            console.log('%c' + '\u2615 accept: ' + log, 'color: #33CC33'); // Light Green
+        }
+        else if(type === 'message') {
+            console.log('%c' + '\u2630 message: ' + log, 'color: #52CCCCF'); // Light Blue
+        }
+        else if(type === 'end') {
+            console.log('%c' + '\u2ADF ---end--- ' + log + ' ---end--- \u2ADF', 'padding-bottom: 11px; line-height: 2; color: #808080;'); // Grey
+        }
+        else {
+            console.log(log);
+        }
     }
 }
 
@@ -46,4 +70,18 @@ function escapeRegExp(string) {
 
 function replaceAll(string, find, replace) {
   return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+// filter data
+// extends jQuery with .filterData(*searchterm*)
+jQuery.fn.filterData = function(set) {
+    var elems=jQuery([]);
+    this.each(function(i,e) {
+        jQuery.each( jQuery(e).data(), function(j,f) {
+            if (j.substring(0, set.length) == set) {
+                elems = elems.add(jQuery(e));
+            }
+        });
+    });
+    return elems;
 }
