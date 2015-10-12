@@ -72,6 +72,19 @@ function replaceAll(string, find, replace) {
   return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
 
+
+// Recursive function
+var recursiveResult     = false;
+function repeatUntilTrue(func) {
+        
+    setTimeout(function() {
+        if(!recursiveResult) {
+            func();
+            repeatUntilTrue(func);
+        }
+    }, 250);
+}
+
 // filter data
 // extends jQuery with .filterData(*searchterm*)
 jQuery.fn.filterData = function(set) {
