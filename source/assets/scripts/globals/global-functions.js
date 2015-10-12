@@ -79,8 +79,13 @@ function repeatUntilTrue(func) {
         
     setTimeout(function() {
         if(!recursiveResult) {
+            consoleLog('repeatUntilTrue: ' + recursiveResult, 'message');
             func();
             repeatUntilTrue(func);
+        }
+        else {
+            recursiveResult = false;
+            consoleLog('Resetting: recursiveResult = ' + recursiveResult, 'message');
         }
     }, 250);
 }
