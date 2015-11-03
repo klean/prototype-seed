@@ -64,7 +64,7 @@ If you haven't heard about those terms before I recommend reading the following 
 by Philip Walton: http://philipwalton.com/articles/css-architecture/
 
 It goes into depth about what good CSS architecture is and how to use the BEM syntax. 
-Klean have written a short introduction in Danish as well (http://www.klean.dk/weblog/systematisk-css-med-bem)
+Klean have written a short introduction in Danish as well (http://klean.dk/indhold/blogs/systematisk-css-med-bem/)
 
 __Additional best practices:__
 - Never use ID's for styling. They are more specific than Classes and you will potentional end in CSS specification hell.
