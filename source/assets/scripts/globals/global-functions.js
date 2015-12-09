@@ -19,33 +19,77 @@ showGroups - This controls which group of console logs you want to show.
 
 
 function consoleLog(log, type , group) {
-    var debug       = true;
-    var showGroups  = ['default', 'group1', 'group2'];
+
+    var debug               = true;
+
+    var showWarn            = true,
+        showError           = true,
+        showNotification    = true,
+        showEvent           = true,
+        showFunction        = true,
+        showAccept          = true,
+        showMessage         = true,
+        showEnd             = true,
+        showObject          = true;
+
+    var showTitle           = false;
+
+    var showGroups          = ['default', 'configurator-validation', 'configurator-actions'];
+
     
     group = (typeof group === 'undefined') ? 'default' : group;
     type = (typeof type === 'undefined') ? 'default' : type;
 
     if(debug == true && showGroups.indexOf(group, 0) != -1) {
-        if(type === 'warning') {
-            console.log('%c' + '\u2620 warning:' + log, 'color: #FF3300'); // Red
+        if(type === 'warning' && showWarn) {
+            var title = ((showTitle) ? 'warning:' : '');
+            console.log(
+                '%c \u26A0' + '%c ' + title + ' ' + log, 
+                'color: #ff6600; font-size: 20px;', 'color: #ff6600'); // Orange
         }
-        else if(type === 'notification') {
-            console.log('%c' + '\u26A0 notification: ' + log, 'color: #FFFF00'); // Yellow
+        if(type === 'error' && showError) {
+            var title = (showTitle) ? 'error:' : ''; 
+            console.log(
+                '%c \u2620' + '%c error: ' + log, 
+                'color: #FF3300; font-size: 20px;', 'color: #FF3300'); // Red
         }
-        else if(type === 'event') {
-            console.log('%c' + '\u23DA event: ' + log, 'color: #FF00FF'); // Fuchsia
+        else if(type === 'notification' && showNotification) {
+            var title = (showTitle) ? 'notification:' : ''; 
+            console.log(
+                '%c \u26A0' + '%c ' + title + ' ' + log, 
+                'color: #FFFF00; font-size: 20px;', 'color: #FFFF00'); // Yellow
         }
-        else if(type === 'function') {
-            console.log('%c' + '\u222F function: ' + log, 'color: #9900CC'); // Purple
+        else if(type === 'event' && showEvent) {
+            var title = (showTitle) ? 'event:' : ''; 
+            console.log(
+                '%c \u23DA' + '%c ' + title + ' ' + log, 
+                'color: #FF00FF; font-size: 20px;', 'color: #FF00FF'); // Fuchsia
         }
-        else if(type === 'accept') {
-            console.log('%c' + '\u2615 accept: ' + log, 'color: #33CC33'); // Light Green
+        else if(type === 'function' && showFunction) {
+            var title = (showTitle) ? 'function:' : ''; 
+            console.log(
+                '%c \u222F' + '%c ' + title + ' ' + log, 
+                'color: #9900CC; font-size: 18px;', 'color: #9900CC'); // Purple
         }
-        else if(type === 'message') {
-            console.log('%c' + '\u2630 message: ' + log, 'color: #52CCCCF'); // Light Blue
+        else if(type === 'accept' && showAccept) {
+            var title = (showTitle) ? 'accept:' : ''; 
+            console.log(
+                '%c \u2615' + '%c ' + title + ' ' + log, 
+                'color: #33CC33; font-size: 22px;', 'color: #33CC33'); // Light Green
         }
-        else if(type === 'end') {
-            console.log('%c' + '\u2ADF ---end--- ' + log + ' ---end--- \u2ADF', 'padding-bottom: 11px; line-height: 2; color: #808080;'); // Grey
+        else if(type === 'message' && showMessage) {
+            var title = (showTitle) ? 'message:' : ''; 
+            console.log(
+                '%c \u2630' + '%c ' + title + ' ' + log, 
+                'color: #52CCCCF; font-size: 12px;', 'color: #52CCCCF'); // Light Blue
+        }
+        else if(type === 'end' && showEnd) {
+            console.log(
+                '%c \u2ADF' + ' ---end--- ' + log + ' ---end--- \u2ADF',
+                 'padding-bottom: 11px; line-height: 2; color: #808080;'); // Grey
+        }
+        else if(type === 'object' && showObject) {
+            console.log(log);
         }
         else {
             console.log(log);
@@ -62,6 +106,19 @@ function getUrlVars() {
     });
     return vars;
 }
+
+// Get specific var from URL
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable) {return pair[1];}
+    }
+    return(false);
+}
+
 
 // Replace all
 function escapeRegExp(string) {
@@ -102,4 +159,11 @@ jQuery.fn.filterData = function(set) {
         });
     });
     return elems;
+}
+
+// filter for duplicates in array
+function unique(array){
+    return $.grep(array,function(el,index){
+        return index == $.inArray(el,array);
+    });
 }
