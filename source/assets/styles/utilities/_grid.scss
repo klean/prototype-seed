@@ -21,35 +21,43 @@ $spacing:            22px !default;
 
 @mixin media($media) {
   @if $media == 'palm-small' {
-    @media only screen and (max-width:$palm-small) { @content; }
+    @media only screen and (max-width: $palm-small) { @content; }
   }
 
   @if $media == 'palm' {
-    @media only screen and (max-width:$palm-end) { @content; }
+    @media only screen and (max-width: $palm-end) { @content; }
   }
 
   @if $media == 'lap' {
-    @media only screen and (min-width:$lap-start) and (max-width:$lap-end) { @content; }
+    @media only screen and (min-width: $lap-start) and (max-width:$lap-end) { @content; }
   }
 
   @if $media == 'lap-and-up' {
-    @media only screen and (min-width:$lap-start) { @content; }
+    @media only screen and (min-width: $lap-start) { @content; }
   }
 
   @if $media == 'portable' {
-    @media only screen and (max-width:$lap-end) { @content; }
+    @media only screen and (max-width: $lap-end) { @content; }
+  }
+
+  @if $media == 'below-desk'{
+    @media only screen and (max-width: $desk-start) { @content; }
   }
 
   @if $media == 'desk'{
-    @media only screen and (min-width:$desk-start) { @content; }
+    @media only screen and (min-width: $desk-start) and (max-width: $desk-wide-start) { @content; }
   }
 
-  @if $media == 'desk-wide'{
-    @media only screen and (min-width: $desk-wide-start) { @content; }
+  @if $media == 'desk-and-up'{
+    @media only screen and (min-width: $desk-start) { @content; }
   }
 
   @if $media == 'below-desk-wide'{
     @media only screen and (max-width: $desk-wide-start) { @content; }
+  }
+
+  @if $media == 'desk-wide'{
+    @media only screen and (min-width: $desk-wide-start) { @content; }
   }
 
   @if $media == 'ultra-wide'{

@@ -46,6 +46,48 @@
   justify-content: center;
 }
 
+$directions:        'left', 'right', 'both';
+
+@mixin clear-generate($namespace: '') {
+  @each $direction in $directions {
+    .clear-#{$direction}#{$namespace} {
+      clear: #{$direction};
+    }
+  }
+}
+
+// Generate clear classes without suffix.
+@include clear-generate();
+
+// Generate clear classes with all the breakpoint suffixes
+@each $breakpoint in $breakpoints {
+  @include media($breakpoint) {
+    @include clear-generate('--#{$breakpoint}');
+  }
+}
+
+
+$nths:        2, 3, 4;
+
+@mixin clear-nth-generate($namespace: '') {
+  @each $nth in $nths {
+    .clear-#{$nth}nth#{$namespace}:nth-of-type(#{$nth}n+#{$nth + 1}) {
+      clear: left;
+    }
+  }
+}
+
+// Generate clear classes without suffix.
+@include clear-nth-generate();
+
+// Generate clear classes with all the breakpoint suffixes
+@each $breakpoint in $breakpoints {
+  @include media($breakpoint) {
+    @include clear-nth-generate('--#{$breakpoint}');
+  }
+}
+
+
 // Spacing
 //
 // Spacers are used to positioning specific elements. Usually it can be modules
@@ -168,6 +210,14 @@
 
 .cursor {
   cursor: pointer;
+}
+
+// fixes opacity transition when container is overflow hidden with border radius
+%transitionfix {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0)
 }
 
 // Videos

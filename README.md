@@ -1,5 +1,5 @@
 
-# [ Prototype Seed ](https://github.com/chriskjaer/prototype-seed)
+# Built on [ Prototype Seed ](https://github.com/chriskjaer/prototype-seed)
 > Includes [BrowserSync](https://github.com/shakyShane/browser-sync) for fast reloading across devices on code changes. [Jade](http://jade-lang.com) templating, [Sass](http://sass-lang.com/), basic html boilerplate with [Respond.js](https://github.com/scottjehl/Respond)(Media Querry fallback) and [Modernizr](http://modernizr.com/) and a simple grid implementation based on a mix of Semantic.gs and Inuit Grid.
 
 ## Installation guide:
@@ -64,7 +64,7 @@ If you haven't heard about those terms before I recommend reading the following 
 by Philip Walton: http://philipwalton.com/articles/css-architecture/
 
 It goes into depth about what good CSS architecture is and how to use the BEM syntax. 
-Klean have written a short introduction in Danish as well (http://klean.dk/indhold/blogs/systematisk-css-med-bem/)
+Klean has written a short introduction in Danish as well (http://klean.dk/indhold/blogs/systematisk-css-med-bem/)
 
 __Additional best practices:__
 - Never use ID's for styling. They are more specific than Classes and you will potentional end in CSS specification hell.
@@ -165,9 +165,3 @@ Read more be following the link before or see some of the examples in the Sass.
 -------------
 
 
-### Todo
-- ~~Add KSS Styleguide~~ ✓
-- ~~Add Normalize to css~~ ✓
-- ~~Add boilerplate Sass setup~~ ✓
-- ~~Add grid system~~ ✓
-- ~~Update layout.jade with more bestpractices from HTML5 Boilerplate~~ ✓
