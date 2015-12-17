@@ -34,6 +34,11 @@
   float: left;
 }
 
+.bottom{
+  position: absolute;
+  bottom: 0;
+}
+
 .flex-center {
   align-items: center;
   display: flex;
@@ -104,6 +109,10 @@ $nths:        2, 3, 4;
 
 .slim {
   margin-bottom: $spacing/2 !important;
+}
+
+.spacing{
+  margin-bottom: $spacing !important;
 }
 
 .row {
@@ -263,4 +272,15 @@ $nths:        2, 3, 4;
   &.rectangle {
     width: auto;
   }
+}
+
+@mixin truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+%truncate {
+  @include truncate;
 }
