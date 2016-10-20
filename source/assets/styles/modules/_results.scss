@@ -1,0 +1,55 @@
+.results-container{
+	background-color: $color-primary;
+	color: $color-light;
+	padding: $spacing 0;
+	position: relative;
+
+	.result-badge{
+		background: $color-secondary;
+		border-radius: 50%;
+		color: $color-primary;
+		float: left;
+	    height: 90px;
+	    width: 90px;
+	}
+	.result-badge__amount{
+		display: block;
+	    text-align: center;
+	    font-weight: bold;
+	    padding-bottom: 1px;
+	    line-height: 100%;
+		font-size: 22px;
+		padding-top: 22px;
+	}
+	.result-badge__text{
+		line-height: 100%;
+	    display: block;
+	    text-align: center;
+	    font-size: 22px;
+	    font-weight: bold;
+	    text-transform: uppercase;
+	}
+	.result-info{
+		float: left;
+		font-weight: bold;
+    	padding-left: 15px;
+    }
+	.result-info__type{
+		color: $color-light;
+		font-size: 17px;
+    	line-height: 21px;
+    	text-transform: uppercase;
+	}
+	.result-info__date{
+		display: block;
+		font-size: 14px;
+		line-height: 100%;
+    	padding: 4px 0 2px;
+	}
+	.result-info__area{
+		display: block;
+		font-size: 14px;
+		padding-top: 2px;
+    	text-decoration: none;
+	}
+}

@@ -3,17 +3,57 @@ html.no-js(lang='')
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
-    title Prototype Seed
+    title I sikre hænder
     meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
     meta(name='description' content='')
 
     // Place favicon.ico and apple-touch-icons in the public folder
 
     link(rel='stylesheet' href='assets/styles/main.css')
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
     script(src='assets/scripts/vendor.js')
 
   body
+    header.site-header.container
+      .grid-group
+        .grid.size-12
+          .grid-inner
+            button.main-nav-toggle.js-main-nav-toggle menu
+            a(href="/")
+              img(src="/assets/images/site-logo.png")
+    nav.main-nav
+      a(href="") Forisde
+      a(href="") Om projektet
+      a(href="") Indsatsområde
+      button.close-main-nav.js-close-main-nav x
+
+
     block content
+
+    footer.site-footer
+      .newsletter-signup-container
+        .container.
+          <div id="mc_embed_signup">
+                <form action="//sikkerpatient.us1.list-manage.com/subscribe/post?u=477a41626a50e419c6c15ec91&amp;id=dbcf6e7c45" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                    <label for="mce-EMAIL">Tilmeld dig i sikre hænders nyhedsbrev</label>
+                    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Skriv din email-adresse her" required>
+                    <div style="position: absolute; left: -5000px;"><input type="text" name="b_477a41626a50e419c6c15ec91_dbcf6e7c45" value=""></div>
+                    <input type="submit" value="Tilmeld" name="subscribe" id="mc-embedded-subscribe" class="btn btn--cta">
+                </form>
+            </div>
+
+      .container
+        .grid-group
+          .grid.size-8.size-12--palm
+            p Logos
+          .grid.size-4.size-12--palm
+            nav.site-footer__nav.grid-group
+              .grid.size-6.size-12--palm
+                a Link
+                a Link
+              .grid.size-6.size-12--palm
+                a Link
+                a Link
 
     block scripts
       script(src='assets/scripts/main.js')

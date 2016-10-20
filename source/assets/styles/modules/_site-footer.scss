@@ -1,0 +1,50 @@
+.site-footer{
+	background-color: $color-primary;
+	color: $color-secondary;
+	clear: both;
+}
+
+.newsletter-signup-container{
+	background: $color-secondary;
+	border-top: 2px solid $color-primary;
+    clear: both;
+    color: $color-dark;
+    margin-bottom: $spacing;
+    position: relative;
+    width: 100%;
+
+    #mc_embed_signup form {
+	    display: block;
+	    position: relative;
+	    text-align: left;
+	    padding: $spacing 0;
+	}
+	#mc_embed_signup label {
+	    display: inline-block;
+	    font-size: 14px;
+	    font-weight: bold;
+	    line-height: 34px;
+	    padding-bottom: 10px;
+	    text-transform: uppercase;
+	}
+	#mc_embed_signup input.email {
+		border: 1px solid #999;
+		border-radius: 4px;
+	    min-width: 130px;
+	    margin-left: 5%;
+	    padding: 8px;
+	    position: relative;
+	    text-indent: 5px;
+	    width: 31% !important;
+	    -webkit-appearance: none;
+	    &:focus{
+	    	outline: none;
+	    }
+	}
+	#mc-embedded-subscribe{
+		color: $color-light;
+		font-size: 18px;
+		padding-bottom: 6px;
+		padding-top: 6px;
+	}
+}

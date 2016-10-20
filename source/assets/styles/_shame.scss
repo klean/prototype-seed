@@ -4,3 +4,27 @@
 // Document them, after you write them!
 // Read this for info: http://csswizardry.com/2013/04/shame-css/
 // --------------------------------------------------------------------------------
+
+
+// Umbraco page builder does not make it possible to set responsive class's
+// So here we just make everything above 50% wide 100% on mobile
+@include media(palm){
+	.grid-layout{
+		.grid.size-1,
+		.grid.size-2,
+		.grid.size-3,
+		.grid.size-4,
+		.grid.size-5,
+		.grid.size-6{
+			width: 50%;
+		}
+		.grid.size-7,
+		.grid.size-8,
+		.grid.size-9,
+		.grid.size-10,
+		.grid.size-11,
+		.grid.size-12{
+			width: 100%;
+		}
+	}
+}

@@ -1,0 +1,15 @@
+.box-container{
+	.grid{
+		margin-bottom: $spacing;
+	}
+	.grid-inner{
+		border-top: 2px solid $color-primary;
+		min-height: 250px;
+		padding: $spacing/2 0;
+	}
+	h2{
+		font-weight: bold;
+		margin-bottom: 17px;
+		text-transform: uppercase;
+	}
+}

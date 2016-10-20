@@ -18,7 +18,24 @@
 
 // Modules
 // ---------------------------------------------
-
+@import 'modules/main-nav';
+@import 'modules/site-header';
+@import 'modules/site-footer';
+@import 'modules/board';
+@import 'modules/box-container';
+@import 'modules/news';
+@import 'modules/areas';
+@import 'modules/search';
+@import 'modules/results';
+@import 'modules/map';
+@import 'modules/slickslider';
+@import 'modules/area';
+@import 'modules/infobox';
+@import 'modules/participant';
+@import 'modules/newsitem';
+@import 'modules/navigationboxes';
+@import 'modules/image-grid';
+@import 'modules/quote';
 
 // Shame
 @import 'shame';

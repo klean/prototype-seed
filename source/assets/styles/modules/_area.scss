@@ -1,0 +1,14 @@
+.page-header--area{
+	margin-bottom: $spacing;
+	position: relative;
+	.page-title,
+	.page-manchet{
+		padding-left: 120px;
+	}
+}
+.page-header__area-icon{
+	position: absolute;
+	top: 0;
+	left: $spacing;
+	width: 100px;
+}

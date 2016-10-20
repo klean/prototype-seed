@@ -4,8 +4,8 @@
 
 *,
 *:before,
-*:after {
-  box-sizing: border-box;
+*:after{
+  box-sizing: inherit;
 }
 
 html,
@@ -18,10 +18,13 @@ textarea {
 }
 
 html {
+  box-sizing: border-box;
   min-height: 100%;
   height: 100%;
   width: 100%;
   background-color: $color-body;
+  transition: all .2s;
+  -webkit-transition: all .2s;
 }
 
 body {
