@@ -305,16 +305,3 @@ $nths:        2, 3, 4;
 .block {
   display: block;
 }
-
-.btn{
-  background-color: $color-primary;
-  border: 1px solid $color-dark;
-  border-radius: 5px;
-  color: $color-secondary;
-  display: inline-block;
-  padding: 8px $spacing;
-  &:hover{
-    background-color: darken($color-primary, 10);
-  }
-}
-
